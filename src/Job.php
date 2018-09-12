@@ -2,12 +2,8 @@
 
 namespace Arjasco\Beanie;
 
-use Arjasco\Beanie\ConnectionAware;
-
 class Job
 {
-    use ConnectionAware;
-
     /**
      * Job id.
      *
@@ -158,7 +154,6 @@ class Job
             'priority' => $this->priority,
             'delay' => $this->delay,
             'ttr' => $this->ttr,
-            'connection' => $this->getConnectionName(),
             'data' => $this->data,
         ];
     }
@@ -168,10 +163,9 @@ class Job
      *
      * @return void
      */
-    public function toJsonPayload()
+    public function toJson()
     {
         return json_encode([
-            'connection' => $this->getConnectionName(),
             'data' => $this->data,
         ]);
     }

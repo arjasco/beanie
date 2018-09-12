@@ -4,7 +4,7 @@ namespace Arjasco\Beanie\Commands;
 
 use LengthException;
 
-class ReserveCommand extends Command
+class ReserveCommand implements Command
 {
     /**
      * Reserve timeout.

@@ -2,7 +2,7 @@
 
 namespace Arjasco\Beanie\Commands;
 
-class BuryCommand extends Command
+class BuryCommand implements Command
 {
     /**
      * Job id.

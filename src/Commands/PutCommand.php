@@ -2,8 +2,12 @@
 
 namespace Arjasco\Beanie\Commands;
 
-class PutCommand extends Command
+use Arjasco\Beanie\DataAware;
+
+class PutCommand implements Command
 {
+    use DataAware;
+    
     /**
      * Job priority.
      *

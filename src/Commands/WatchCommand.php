@@ -2,7 +2,7 @@
 
 namespace Arjasco\Beanie\Commands;
 
-class WatchCommand extends Command
+class WatchCommand implements Command
 {
     /**
      * Tube name.

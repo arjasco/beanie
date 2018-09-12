@@ -15,7 +15,8 @@ class Reply
         'OUT_OF_MEMORY' => 'Server out of memory.',
         'INTERNAL_ERROR' => 'Internal server error.',
         'BAD_FORMAT' => 'Command has a bad format.',
-        'UNKNOWN_COMMAND' => 'Command unknown',
+        'UNKNOWN_COMMAND' => 'Command unknown.',
+        'JOB_TOO_BIG' => 'Job exceeds the max-job-size.'
     ];
 
     /**
@@ -84,26 +85,22 @@ class Reply
     {
         switch ($this->getStatus()) {
             case 'OK':
-                return (int) $this->segments[1];
+                return (int) $this->getSegment(1);
 
             case 'RESERVED':
             case 'FOUND':
-                return (int) $this->segments[2];
+                return (int) $this->getSegment(2);
         }
     }
 
     /**
-     * Get the job id.
+     * Get a reply segment by index.
      *
      * @return int
      */
-    public function getId()
+    public function getSegment($index = 0)
     {
-        if ($this->getStatus() == 'OK' || ! isset($this->segments[1])) {
-            return null;
-        }
-
-        return $this->segments[1];
+        return $this->segments[$index] ?? null;
     }
 
     /**
@@ -113,7 +110,7 @@ class Reply
      */
     public function getStatus()
     {
-        return $this->segments[0];
+        return $this->getSegment(0);
     }
 
     /**

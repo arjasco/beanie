@@ -4,7 +4,7 @@ namespace Arjasco\Beanie\Commands;
 
 use LengthException;
 
-class UseCommand extends Command
+class UseCommand implements Command
 {
     /**
      * Max tube name length in bytes.
