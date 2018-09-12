@@ -32,20 +32,21 @@ class Beanie
     /**
      * Put a job into a tube.
      *
-     * @param Job $job
-     * @return Arjasco\Beanie\Reply
+     * @param \Arjasco\Job $job
+     * @param int $priority
+     * @param int $delay
+     * @param int $ttr
+     * @return \Arjasco\Beanie\Reply
      */
-    public function put(Job $job)
+    public function put(Job $job, $priority, $delay, $ttr)
     {
         $cmd = (new Commands\PutCommand(
-            $job->getPriority(),
-            $job->getDelay(),
-            $job->getTimeToRun()
+            $priority, $delay, $ttr
         ))->setData(
-            $job->toJson()
+            $job->getData()
         );
 
-        return $this->connection->send($cmd);
+        $reply = $this->connection->send($cmd);
     }
 
     /**
@@ -60,7 +61,8 @@ class Beanie
             new Commands\UseCommand($tube)
         );
 
-        return $this;
+        $job = new Job($reply->getStatus());
+
     }
 
     /**
@@ -79,7 +81,7 @@ class Beanie
                     new Commands\WatchCommand($tube)
                 );
 
-                if ($reply->getSegment(0) == 'WATCHING') {
+                if ($reply->getStatus() == 'WATCHING') {
                     $this->watchList->add($tube);
                 }
             }
@@ -109,7 +111,7 @@ class Beanie
                     new Commands\IgnoreCommand($tube)
                 );
 
-                if ($reply->getSegment(0) == 'WATCHING') {
+                if ($reply->getStatus() == 'WATCHING') {
                     $this->watchList->add($tube);
                 }
             }

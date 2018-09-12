@@ -16,9 +16,11 @@ class Reply
         'INTERNAL_ERROR' => 'Internal server error.',
         'BAD_FORMAT' => 'Command has a bad format.',
         'UNKNOWN_COMMAND' => 'Command unknown.',
-        'JOB_TOO_BIG' => 'Job exceeds the max-job-size.'
+        'JOB_TOO_BIG' => 'Job exceeds the max-job-size.',
+        'DRAINING' => 'Server is in "drain mode".',
     ];
 
+    
     /**
      * Replies with additional data.
      *
