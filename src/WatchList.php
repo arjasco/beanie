@@ -5,6 +5,13 @@ namespace Arjasco\Beanie;
 class WatchList
 {
     /**
+     * Minimum watch list size
+     *
+     * @var int
+     */
+    const MINIMUM_SIZE = 1;
+
+    /**
      * List of tubes.
      *
      * @var array

@@ -9,14 +9,14 @@ class Connection implements ConnectionInterface
 {
     /**
      * Control characters.
-     * 
+     *
      * @var string
      */
     const CRLF = "\r\n";
 
     /**
      * Control characters length.
-     * 
+     *
      * @var int
      */
     const CRLF_LENGTH = 2;
@@ -43,31 +43,18 @@ class Connection implements ConnectionInterface
     protected $port;
 
     /**
-     * Connection name.
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
      * Create a new connection.
      *
      * @param string $address
      * @param int $port
-     * @param string $name
+     * @param bool $persistent
+     * @param int $timeout
      */
-    public function __construct($address, $port, $name = null)
+    public function __construct($address, $port, $persistent = false, $timeout = 0)
     {
         $this->address = $address;
         $this->port = $port;
-
-        if (! is_null($name)) {
-            $this->name = $name;
-        } else {
-            $this->name = $address . ':' . $port; 
-        }
-
-        $this->socket = new Socket($address, $port);
+        $this->socket = new Socket($address, $port, $persistent, $timeout);
     }
 
     /**
@@ -93,23 +80,13 @@ class Connection implements ConnectionInterface
             // Read the additional data from the socket.
             $data = $this->socket->read($reply->getBytes());
 
-            // Read control characters to complete the command.
-            $data = $this->socket->read(self::CRLF_LENGTH);
-
             // Add the additional data to the reply.
             $reply->setData($data);
+
+            // Read control characters to complete the command.
+            $this->socket->read(self::CRLF_LENGTH);
         }
 
         return $reply;
-    }
-
-    /**
-     * Get connection name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 }

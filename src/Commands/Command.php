@@ -2,7 +2,7 @@
 
 namespace Arjasco\Beanie\Commands;
 
-interface Command 
+interface Command
 {
     /**
      * Get the command string to send.

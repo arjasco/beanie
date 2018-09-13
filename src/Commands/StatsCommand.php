@@ -2,7 +2,7 @@
 
 namespace Arjasco\Beanie\Commands;
 
-class StatsCommand implements Command 
+class StatsCommand implements Command
 {
     /**
      * @inheritdoc

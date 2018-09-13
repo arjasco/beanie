@@ -18,11 +18,13 @@ class Job
     /**
      * Create a new job
      *
-     * @param mixed $payload
+     * @param mixed $id
+     * @param mixed $data
      */
-    public function __construct($id = null)
+    public function __construct($id = null, $data = null)
     {
-       $this->id = $id;
+        $this->id = $id;
+        $this->data = $data;
     }
 
     /**
@@ -41,7 +43,7 @@ class Job
     /**
      * JSON encoded payload.
      *
-     * @return void
+     * @return string
      */
     public function toJson()
     {
@@ -49,5 +51,15 @@ class Job
             'id' => $this->id,
             'data' => $this->data,
         ]);
+    }
+
+    /**
+     * Get the job id.
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

@@ -5,6 +5,27 @@ namespace Arjasco\Beanie;
 class Beanie
 {
     /**
+     * Default job priority.
+     *
+     * @var int
+     */
+    const DEFAULT_PRIORITY = 1024;
+
+    /**
+     * Default job delay.
+     *
+     * @var int
+     */
+    const DEFAULT_DELAY = 0;
+
+    /**
+     * Default job time to run.
+     *
+     * @var int
+     */
+    const DEFAULT_TTR = 60;
+
+    /**
      * Connection to beanstalk server(s)
      *
      * @var ConnectionInterface
@@ -38,13 +59,14 @@ class Beanie
      * @param int $ttr
      * @return \Arjasco\Beanie\Reply
      */
-    public function put(Job $job, $priority, $delay, $ttr)
-    {
-        $cmd = (new Commands\PutCommand(
-            $priority, $delay, $ttr
-        ))->setData(
-            $job->getData()
-        );
+    public function put(
+        Job $job,
+        $priority = self::DEFAULT_PRIORITY,
+        $delay = self::DEFAULT_DELAY,
+        $ttr = self::DEFAULT_TTR
+    ) {
+        $cmd = new Commands\PutCommand($priority, $delay, $ttr);
+        $cmd->setData($job->getData());
 
         $reply = $this->connection->send($cmd);
     }
@@ -57,12 +79,11 @@ class Beanie
      */
     public function use($tube)
     {
-        $reply = $this->connection->send(
+        $this->connection->send(
             new Commands\UseCommand($tube)
         );
 
-        $job = new Job($reply->getStatus());
-
+        return $this;
     }
 
     /**
@@ -100,8 +121,7 @@ class Beanie
     {
         $tubes = !is_array($tubes) ? [$tubes] : $tubes;
 
-        // Ignoring the only tube in the watch list is not allowed.
-        if ($this->watchList->count() < 2) {
+        if ($this->watchList->count() == WatchList::MINIMUM_SIZE) {
             return $this;
         }
 
@@ -112,7 +132,7 @@ class Beanie
                 );
 
                 if ($reply->getStatus() == 'WATCHING') {
-                    $this->watchList->add($tube);
+                    $this->watchList->remove($tube);
                 }
             }
         }
@@ -121,17 +141,84 @@ class Beanie
     }
 
     /**
-     * Reverse a job from the tube.
+     * Reserve a job from the tube in use.
      *
-     * @param string $tube
-     * @return $this
+     * @return \Arjasco\Beanie\Job
      */
-    public function reserve($tube)
+    public function reserve()
     {
         $reply = $this->connection->send(
-            new Commands\UseCommand($tube)
+            new Commands\ReserveCommand
+        );
+
+        return new Job($reply->getId(), $reply->getData());
+    }
+
+    /**
+     * Touch a job in the tube.
+     *
+     * @param \Arjasco\Job $job
+     * @return $this
+     */
+    public function touch(Job $job)
+    {
+        $this->connection->send(
+            new Commands\TouchCommand($job->getId())
         );
 
         return $this;
+    }
+
+    /**
+     * Release a job from the tube.
+     *
+     * @param \Arjasco\Job $job
+     * @param int $priority
+     * @param int $delay
+     * @return $this
+     */
+    public function release(
+        Job $job,
+        $priority = self::DEFAULT_PRIORITY,
+        $delay = self::DEFAULT_DELAY
+    ) {
+        $this->connection->send(
+            new Commands\ReleaseCommand($job->getId(), $priority, $delay)
+        );
+
+        return $this;
+    }
+
+    /**
+     * Delete a job from the tube.
+     *
+     * @param \Arjasco\Job $job
+     * @return $this
+     */
+    public function delete(Job $job)
+    {
+        $this->connection->send(
+            new Commands\DeleteCommand($job->getId())
+        );
+
+        return $this;
+    }
+
+    /**
+     * Get server or tube stats.
+     *
+     * @return array
+     */
+    public function stats($tube = null)
+    {
+        if (! is_null($tube)) {
+            $cmd = new Commands\StatsTubeCommand($tube);
+        } else {
+            $cmd = new Commands\StatsCommand;
+        }
+
+        $reply = $this->connection->send($cmd);
+
+        return YamlStatsParser::parseDictionary($reply->getData());
     }
 }

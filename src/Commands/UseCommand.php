@@ -29,8 +29,8 @@ class UseCommand implements Command
     {
         if (strlen($tube) > self::MAX_TUBE_NAME_LENGTH) {
             throw new LengthException(sprintf(
-                "The given tube name [%s] must be less than %s bytes", 
-                $tube, 
+                "The given tube name [%s] must be less than %s bytes",
+                $tube,
                 self::MAX_TUBE_NAME_LENGTH
             ));
         }

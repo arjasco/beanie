@@ -3,9 +3,12 @@
 namespace Arjasco\Beanie;
 
 use Arjasco\Beanie\Exceptions\ServerException;
+use Arjasco\Beanie\DataAware;
 
 class Reply
 {
+    use DataAware;
+
     /**
      * Common server error replies.
      *
@@ -20,7 +23,6 @@ class Reply
         'DRAINING' => 'Server is in "drain mode".',
     ];
 
-    
     /**
      * Replies with additional data.
      *
@@ -33,18 +35,23 @@ class Reply
     ];
 
     /**
+     * Replies with job ids.
+     *
+     * @var array
+     */
+    protected $repliesWithJobIds = [
+        'INSERTED',
+        'RESERVED',
+        'FOUND',
+        'BURIED',
+    ];
+
+    /**
      * Command reply segments.
      *
      * @var array
      */
     protected $segments;
-
-    /**
-     * Additional reply data.
-     *
-     * @var array
-     */
-    protected $data;
 
     /**
      * Create a new reply.
@@ -106,7 +113,7 @@ class Reply
     }
 
     /**
-     * Get the job id.
+     * Get the status.
      *
      * @return int
      */
@@ -116,23 +123,16 @@ class Reply
     }
 
     /**
-     * Set the additional data.
+     * Get the job id.
      *
-     * @param string $data
      * @return mixed
      */
-    public function setData($data)
+    public function getId()
     {
-        $this->data = $data;
-    }
+        if (in_array($this->getStatus(), $this->repliesWithJobIds)) {
+            return $this->getSegment(1);
+        }
 
-    /**
-     * Get the additional data.
-     *
-     * @return mixed
-     */
-    public function getData()
-    {
-        return $this->data;
+        return null;
     }
 }
