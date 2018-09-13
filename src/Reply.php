@@ -3,9 +3,12 @@
 namespace Arjasco\Beanie;
 
 use Arjasco\Beanie\Exceptions\ServerException;
+use Arjasco\Beanie\DataAware;
 
 class Reply
 {
+    use DataAware;
+
     /**
      * Common server error replies.
      *
@@ -15,7 +18,9 @@ class Reply
         'OUT_OF_MEMORY' => 'Server out of memory.',
         'INTERNAL_ERROR' => 'Internal server error.',
         'BAD_FORMAT' => 'Command has a bad format.',
-        'UNKNOWN_COMMAND' => 'Command unknown',
+        'UNKNOWN_COMMAND' => 'Command unknown.',
+        'JOB_TOO_BIG' => 'Job exceeds the max-job-size.',
+        'DRAINING' => 'Server is in "drain mode".',
     ];
 
     /**
@@ -30,18 +35,23 @@ class Reply
     ];
 
     /**
+     * Replies with job ids.
+     *
+     * @var array
+     */
+    protected $repliesWithJobIds = [
+        'INSERTED',
+        'RESERVED',
+        'FOUND',
+        'BURIED',
+    ];
+
+    /**
      * Command reply segments.
      *
      * @var array
      */
     protected $segments;
-
-    /**
-     * Additional reply data.
-     *
-     * @var array
-     */
-    protected $data;
 
     /**
      * Create a new reply.
@@ -84,56 +94,45 @@ class Reply
     {
         switch ($this->getStatus()) {
             case 'OK':
-                return (int) $this->segments[1];
+                return (int) $this->getSegment(1);
 
             case 'RESERVED':
             case 'FOUND':
-                return (int) $this->segments[2];
+                return (int) $this->getSegment(2);
         }
     }
 
     /**
-     * Get the job id.
+     * Get a reply segment by index.
      *
      * @return int
      */
-    public function getId()
+    public function getSegment($index = 0)
     {
-        if ($this->getStatus() == 'OK' || ! isset($this->segments[1])) {
-            return null;
-        }
-
-        return $this->segments[1];
+        return $this->segments[$index] ?? null;
     }
 
     /**
-     * Get the job id.
+     * Get the status.
      *
      * @return int
      */
     public function getStatus()
     {
-        return $this->segments[0];
+        return $this->getSegment(0);
     }
 
     /**
-     * Set the additional data.
+     * Get the job id.
      *
-     * @param string $data
      * @return mixed
      */
-    public function setData($data)
+    public function getId()
     {
-        $this->data = $data;
-    }
+        if (in_array($this->getStatus(), $this->repliesWithJobIds)) {
+            return $this->getSegment(1);
+        }
 
-    /**
-     * Get the additional data.
-     *
-     * @return mixed
-     */
-    public function getData()
-    {
-        return $this->data;
+        return null;
     }
 }

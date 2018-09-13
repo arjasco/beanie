@@ -2,7 +2,7 @@
 
 namespace Arjasco\Beanie\Commands;
 
-class TouchCommand extends Command
+class TouchCommand implements Command
 {
     /**
      * Job id.

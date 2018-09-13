@@ -2,7 +2,7 @@
 
 namespace Arjasco\Beanie\Commands;
 
-class ReleaseCommand extends Command
+class ReleaseCommand implements Command
 {
     /**
      * Job id.

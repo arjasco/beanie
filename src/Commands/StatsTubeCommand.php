@@ -2,7 +2,7 @@
 
 namespace Arjasco\Beanie\Commands;
 
-class IgnoreCommand implements Command
+class StatsTubeCommand implements Command
 {
     /**
      * Tube name.
@@ -12,7 +12,7 @@ class IgnoreCommand implements Command
     protected $tube;
 
     /**
-     * Create a new "ignore" command.
+     * Create a new "stats-tube" command.
      *
      * @param string $tube
      */
@@ -26,7 +26,7 @@ class IgnoreCommand implements Command
      */
     public function getLine()
     {
-        return 'ignore ' . $this->tube;
+        return 'stats-tube ' . $this->tube;
     }
 
     /**

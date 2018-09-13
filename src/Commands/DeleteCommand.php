@@ -2,7 +2,7 @@
 
 namespace Arjasco\Beanie\Commands;
 
-class DeleteCommand extends Command
+class DeleteCommand implements Command
 {
     /**
      * Job id.
