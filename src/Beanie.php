@@ -68,7 +68,7 @@ class Beanie
         $cmd = new Commands\PutCommand($priority, $delay, $ttr);
         $cmd->setData($job->getData());
 
-        $reply = $this->connection->send($cmd);
+        return $this->connection->send($cmd);
     }
 
     /**
