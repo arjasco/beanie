@@ -2,8 +2,6 @@
 
 namespace Arjasco\Beanie;
 
-use Arjasco\Beanie\DataAware;
-
 class Job
 {
     use DataAware;

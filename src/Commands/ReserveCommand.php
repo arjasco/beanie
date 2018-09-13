@@ -2,8 +2,6 @@
 
 namespace Arjasco\Beanie\Commands;
 
-use LengthException;
-
 class ReserveCommand implements Command
 {
     /**

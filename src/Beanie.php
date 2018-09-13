@@ -35,7 +35,7 @@ class Beanie
     /**
      * Tube watch list.
      *
-     * @var \Arjasco\Beanie\WatchList;
+     * @var WatchList;
      */
     protected $watchList;
 
@@ -53,11 +53,11 @@ class Beanie
     /**
      * Put a job into a tube.
      *
-     * @param \Arjasco\Job $job
+     * @param Job $job
      * @param int $priority
      * @param int $delay
      * @param int $ttr
-     * @return \Arjasco\Beanie\Reply
+     * @return Reply
      */
     public function put(
         Job $job,
@@ -157,7 +157,7 @@ class Beanie
     /**
      * Touch a job in the tube.
      *
-     * @param \Arjasco\Job $job
+     * @param Job $job
      * @return $this
      */
     public function touch(Job $job)
@@ -172,7 +172,7 @@ class Beanie
     /**
      * Release a job from the tube.
      *
-     * @param \Arjasco\Job $job
+     * @param Job $job
      * @param int $priority
      * @param int $delay
      * @return $this
@@ -192,7 +192,7 @@ class Beanie
     /**
      * Delete a job from the tube.
      *
-     * @param \Arjasco\Job $job
+     * @param Job $job
      * @return $this
      */
     public function delete(Job $job)
@@ -207,6 +207,7 @@ class Beanie
     /**
      * Get server or tube stats.
      *
+     * @param string|null $tube
      * @return array
      */
     public function stats($tube = null)
