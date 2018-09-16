@@ -17,12 +17,12 @@ The best way to demostrate how to use Beanie is to get straight into code exampl
 ```php
 <?php
 
-use Arjasco\Beanie\Beanie;
+use Arjasco\Beanie\Factory as BeanieFactory;
 use Arjasco\Beanie\Connection;
 use Arjasco\Beanie\Job;
 
 // Create a Beanie instance
-$beanie = Beanie::make('localhost', 11300);
+$beanie = BeanieFactory::make('localhost', 11300);
 
 // Create a job to put into a tube.
 $job = (new Job)->setData(json_encode(['github_repo' => 'arjasco/beanie']));

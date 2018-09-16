@@ -29,6 +29,7 @@ class Connection implements ConnectionInterface
 
     /**
      * Create a new connection.
+     *
      * @param Socket $socket
      */
     public function __construct(Socket $socket)
