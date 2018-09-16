@@ -48,6 +48,7 @@ class Socket
      * @param int $port
      * @param bool $persistent
      * @param int $timeout
+     * @throws SocketException
      */
     public function __construct($address, $port, $persistent = false, $timeout = 0)
     {
@@ -109,7 +110,7 @@ class Socket
      * Write data to the socket.
      *
      * @param string $content
-     * @return void
+     * @throws SocketException
      */
     public function write($content)
     {

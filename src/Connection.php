@@ -3,7 +3,6 @@
 namespace Arjasco\Beanie;
 
 use Arjasco\Beanie\Commands\Command;
-use Arjasco\Beanie\Reply;
 
 class Connection implements ConnectionInterface
 {
@@ -24,7 +23,7 @@ class Connection implements ConnectionInterface
     /**
      * Connection socket.
      *
-     * @var \Arjasaco\Beanie\Socket
+     * @var Socket
      */
     protected $socket;
 
@@ -60,8 +59,10 @@ class Connection implements ConnectionInterface
     /**
      * Send a command to the server.
      *
-     * @param \Arjasco\Beanie\Commands\Command $command
-     * @return \Arjasco\Beanie\Reply
+     * @param Command $command
+     * @return Reply
+     * @throws Exceptions\ServerException
+     * @throws Exceptions\SocketException
      */
     public function send(Command $command)
     {

@@ -58,7 +58,7 @@ class WatchList
     /**
      * Number of tubes in the watch list.
      *
-     * @return void
+     * @return int
      */
     public function count()
     {

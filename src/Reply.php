@@ -3,7 +3,6 @@
 namespace Arjasco\Beanie;
 
 use Arjasco\Beanie\Exceptions\ServerException;
-use Arjasco\Beanie\DataAware;
 
 class Reply
 {
@@ -57,7 +56,7 @@ class Reply
      * Create a new reply.
      *
      * @param string $contents
-     * @throws \Arjasco\Beanie\Exceptions\ServerException
+     * @throws ServerException
      */
     public function __construct($contents)
     {
