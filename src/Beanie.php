@@ -147,7 +147,7 @@ class Beanie
     /**
      * Reserve a job from the tube in use.
      *
-     * @return \Arjasco\Beanie\Job
+     * @return Job|bool
      */
     public function reserve()
     {
@@ -155,7 +155,11 @@ class Beanie
             new Commands\ReserveCommand
         );
 
-        return new Job($reply->getId(), $reply->getData());
+        if ($reply->getStatus() == 'RESERVED') {
+            return new Job($reply->getId(), $reply->getData());
+        }
+
+        return false;
     }
 
     /**

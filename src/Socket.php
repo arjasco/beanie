@@ -12,7 +12,7 @@ class Socket
      * @var string
      */
     protected $address;
-    
+
     /**
      * Port to connect to.
      *
@@ -56,7 +56,7 @@ class Socket
         $this->port = $port;
         $this->persistent = $persistent;
         $this->timeout = $timeout;
-        
+
         $this->connect();
     }
 
@@ -93,7 +93,11 @@ class Socket
      */
     public function read($length = 1024)
     {
-        return fread($this->socket, $length);
+        do {
+            $data = fread($this->socket, $length);
+        } while ($data === false);
+
+        return $data;
     }
 
     /**
@@ -103,7 +107,11 @@ class Socket
      */
     public function readLine()
     {
-        return fgets($this->socket);
+        do {
+            $data = fgets($this->socket);
+        } while ($data === false);
+
+        return $data;
     }
 
     /**
