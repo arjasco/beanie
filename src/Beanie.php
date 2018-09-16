@@ -226,4 +226,21 @@ class Beanie
 
         return YamlStatsParser::parseDictionary($reply->getData());
     }
+
+    /**
+     * Kick a job or number of jobs.
+     *
+     * @param mixed $value
+     * @return void
+     */
+    public function kick($value)
+    {
+        if ($value instanceof Job) {
+            $cmd = new Commands\KickJobCommand($value->getId());
+        } else {
+            $cmd = new Commands\KickCommand((int) $value);
+        }
+
+        $this->connection->send($cmd);
+    }
 }
