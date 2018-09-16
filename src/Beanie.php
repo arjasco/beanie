@@ -53,18 +53,22 @@ class Beanie
     /**
      * Put a job into a tube.
      *
-     * @param Job $job
+     * @param mixed $job
      * @param int $priority
      * @param int $delay
      * @param int $ttr
      * @return Reply
      */
     public function put(
-        Job $job,
+        $job,
         $priority = self::DEFAULT_PRIORITY,
         $delay = self::DEFAULT_DELAY,
         $ttr = self::DEFAULT_TTR
     ) {
+        if (! ($job instanceof Job)) {
+            $job = new Job(null, (string) $job);
+        }
+
         $cmd = new Commands\PutCommand($priority, $delay, $ttr);
         $cmd->setData($job->getData());
 
