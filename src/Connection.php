@@ -28,32 +28,12 @@ class Connection implements ConnectionInterface
     protected $socket;
 
     /**
-     * Connection address.
-     *
-     * @var string
-     */
-    protected $address;
-
-    /**
-     * Connection port.
-     *
-     * @var int
-     */
-    protected $port;
-
-    /**
      * Create a new connection.
-     *
-     * @param string $address
-     * @param int $port
-     * @param bool $persistent
-     * @param int $timeout
+     * @param Socket $socket
      */
-    public function __construct($address, $port, $persistent = false, $timeout = 0)
+    public function __construct(Socket $socket)
     {
-        $this->address = $address;
-        $this->port = $port;
-        $this->socket = new Socket($address, $port, $persistent, $timeout);
+        $this->socket = $socket;
     }
 
     /**
