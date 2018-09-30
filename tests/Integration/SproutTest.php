@@ -8,7 +8,7 @@ use Arjasco\Sprout\Factory;
 use Arjasco\Sprout\Job;
 use Arjasco\Sprout\Exceptions\SocketException;
 
-class ConnectionTest extends TestCase
+class SproutTest extends TestCase
 {
     protected $sprout;
 
