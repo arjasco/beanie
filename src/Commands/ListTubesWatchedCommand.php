@@ -2,14 +2,14 @@
 
 namespace Arjasco\Sprout\Commands;
 
-class StatsCommand implements Command
+class ListTubesWatchedCommand implements Command
 {
     /**
      * @inheritdoc
      */
     public function getLine()
     {
-        return 'stats';
+        return 'list-tubes-watched';
     }
 
     /**

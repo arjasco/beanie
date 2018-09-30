@@ -1,8 +1,8 @@
 <?php
 
-namespace Arjasco\Beanie\Commands;
+namespace Arjasco\Sprout\Commands;
 
-class IgnoreCommand extends Command
+class IgnoreCommand implements Command
 {
     /**
      * Tube name.

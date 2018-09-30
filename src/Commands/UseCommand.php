@@ -1,10 +1,10 @@
 <?php
 
-namespace Arjasco\Beanie\Commands;
+namespace Arjasco\Sprout\Commands;
 
 use LengthException;
 
-class UseCommand extends Command
+class UseCommand implements Command
 {
     /**
      * Max tube name length in bytes.
@@ -29,8 +29,8 @@ class UseCommand extends Command
     {
         if (strlen($tube) > self::MAX_TUBE_NAME_LENGTH) {
             throw new LengthException(sprintf(
-                "The given tube name [%s] must be less than %s bytes", 
-                $tube, 
+                "The given tube name [%s] must be less than %s bytes",
+                $tube,
                 self::MAX_TUBE_NAME_LENGTH
             ));
         }

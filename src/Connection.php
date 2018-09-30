@@ -1,22 +1,21 @@
 <?php
 
-namespace Arjasco\Beanie;
+namespace Arjasco\Sprout;
 
-use Arjasco\Beanie\Commands\Command;
-use Arjasco\Beanie\Reply;
+use Arjasco\Sprout\Commands\Command;
 
 class Connection implements ConnectionInterface
 {
     /**
      * Control characters.
-     * 
+     *
      * @var string
      */
     const CRLF = "\r\n";
 
     /**
      * Control characters length.
-     * 
+     *
      * @var int
      */
     const CRLF_LENGTH = 2;
@@ -24,57 +23,27 @@ class Connection implements ConnectionInterface
     /**
      * Connection socket.
      *
-     * @var \Arjasaco\Beanie\Socket
+     * @var Socket
      */
     protected $socket;
 
     /**
-     * Connection address.
-     *
-     * @var string
-     */
-    protected $address;
-
-    /**
-     * Connection port.
-     *
-     * @var int
-     */
-    protected $port;
-
-    /**
-     * Connection name.
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
      * Create a new connection.
      *
-     * @param string $address
-     * @param int $port
-     * @param string $name
+     * @param Socket $socket
      */
-    public function __construct($address, $port, $name = null)
+    public function __construct(Socket $socket)
     {
-        $this->address = $address;
-        $this->port = $port;
-
-        if (! is_null($name)) {
-            $this->name = $name;
-        } else {
-            $this->name = $address . ':' . $port; 
-        }
-
-        $this->socket = new Socket($address, $port);
+        $this->socket = $socket;
     }
 
     /**
      * Send a command to the server.
      *
-     * @param \Arjasco\Beanie\Commands\Command $command
-     * @return \Arjasco\Beanie\Reply
+     * @param Command $command
+     * @return Reply
+     * @throws Exceptions\ServerException
+     * @throws Exceptions\SocketException
      */
     public function send(Command $command)
     {
@@ -93,23 +62,13 @@ class Connection implements ConnectionInterface
             // Read the additional data from the socket.
             $data = $this->socket->read($reply->getBytes());
 
-            // Read control characters to complete the command.
-            $data = $this->socket->read(self::CRLF_LENGTH);
-
             // Add the additional data to the reply.
             $reply->setData($data);
+
+            // Read control characters to complete the command.
+            $this->socket->read(self::CRLF_LENGTH);
         }
 
         return $reply;
-    }
-
-    /**
-     * Get connection name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 }

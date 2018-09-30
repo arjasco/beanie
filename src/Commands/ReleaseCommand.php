@@ -1,8 +1,8 @@
 <?php
 
-namespace Arjasco\Beanie\Commands;
+namespace Arjasco\Sprout\Commands;
 
-class ReleaseCommand extends Command
+class ReleaseCommand implements Command
 {
     /**
      * Job id.

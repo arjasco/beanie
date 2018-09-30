@@ -1,16 +1,16 @@
 <?php
 
-namespace Arjasco\Beanie;
+namespace Arjasco\Sprout;
 
-use \Arjasco\Beanie\Commands\Command;
+use Arjasco\Sprout\Commands\Command;
 
-interface CommandSenderInterface
+interface ConnectionInterface
 {
     /**
      * Send a command to the server.
      *
-     * @param \Arjasco\Beanie\Commands\Command $command
-     * @return \Arjasco\Beanie\Reply
+     * @param Command $command
+     * @return Reply
      */
     public function send(Command $command);
 }

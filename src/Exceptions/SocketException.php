@@ -1,6 +1,7 @@
 <?php
 
-namespace Arjasco\Beanie\Exceptions;
+namespace Arjasco\Sprout\Exceptions;
+
 use Exception;
 
 class SocketException extends Exception

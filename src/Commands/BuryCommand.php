@@ -1,8 +1,8 @@
 <?php
 
-namespace Arjasco\Beanie\Commands;
+namespace Arjasco\Sprout\Commands;
 
-class BuryCommand extends Command
+class BuryCommand implements Command
 {
     /**
      * Job id.
@@ -24,7 +24,7 @@ class BuryCommand extends Command
      * @param int $id
      * @param int $priority
      */
-    public function __construct($id, $priority, $delay)
+    public function __construct($id, $priority)
     {
         $this->id = $id;
         $this->priority = $priority;

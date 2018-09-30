@@ -1,10 +1,8 @@
 <?php
 
-namespace Arjasco\Beanie\Commands;
+namespace Arjasco\Sprout\Commands;
 
-use LengthException;
-
-class ReserveCommand extends Command
+class ReserveCommand implements Command
 {
     /**
      * Reserve timeout.

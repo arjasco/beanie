@@ -2,23 +2,23 @@
 
 namespace Arjasco\Sprout\Commands;
 
-class TouchCommand implements Command
+class StatsTubeCommand implements Command
 {
     /**
-     * Job id.
+     * Tube name.
      *
-     * @var int
+     * @var string
      */
-    protected $id;
+    protected $tube;
 
     /**
-     * Create a new "touch" command.
+     * Create a new "stats-tube" command.
      *
-     * @param int $id
+     * @param string $tube
      */
-    public function __construct($id)
+    public function __construct($tube)
     {
-        $this->id = $id;
+        $this->tube = $tube;
     }
 
     /**
@@ -26,7 +26,7 @@ class TouchCommand implements Command
      */
     public function getLine()
     {
-        return 'touch ' . $this->id;
+        return 'stats-tube ' . $this->tube;
     }
 
     /**

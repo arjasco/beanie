@@ -1,9 +1,13 @@
 <?php
 
-namespace Arjasco\Beanie\Commands;
+namespace Arjasco\Sprout\Commands;
 
-class PutCommand extends Command
+use Arjasco\Sprout\DataAware;
+
+class PutCommand implements Command
 {
+    use DataAware;
+
     /**
      * Job priority.
      *

@@ -1,5 +1,5 @@
 {
-    "name": "arjasco/beanie",
+    "name": "arjasco/sprout",
     "description": "Beanstalk queue library for PHP",
     "type": "library",
     "license": "MIT",
@@ -11,8 +11,19 @@
     ],
     "autoload": {
         "psr-4": {
-            "Arjasco\\Beanie\\": "src/"
+            "Arjasco\\Sprout\\": "src/"
         }
     },
-    "require": {}
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.3",
+        "mockery/mockery": "^1.1"
+    }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Arjasco\Beanie\Commands;
+namespace Arjasco\Sprout\Commands;
 
-class DeleteCommand extends Command
+class DeleteCommand implements Command
 {
     /**
      * Job id.

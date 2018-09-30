@@ -1,8 +1,8 @@
 <?php
 
-namespace Arjasco\Beanie;
+namespace Arjasco\Sprout;
 
-use Arjasco\Beanie\Exceptions\SocketException;
+use Arjasco\Sprout\Exceptions\SocketException;
 
 class Socket
 {
@@ -12,7 +12,7 @@ class Socket
      * @var string
      */
     protected $address;
-    
+
     /**
      * Port to connect to.
      *
@@ -48,6 +48,7 @@ class Socket
      * @param int $port
      * @param bool $persistent
      * @param int $timeout
+     * @throws SocketException
      */
     public function __construct($address, $port, $persistent = false, $timeout = 0)
     {
@@ -55,7 +56,7 @@ class Socket
         $this->port = $port;
         $this->persistent = $persistent;
         $this->timeout = $timeout;
-        
+
         $this->connect();
     }
 
@@ -63,24 +64,24 @@ class Socket
      * Establish a connection to the socket.
      *
      * @return void
-     * @throws \Arjasco\Beanie\Exceptions\SocketException
+     * @throws \Arjasco\Sprout\Exceptions\SocketException
      */
     protected function connect()
     {
         if ($this->persistent) {
-            $this->socket = pfsockopen($this->address, $this->port, $errno, $errstr);
+            $this->socket = @pfsockopen($this->address, $this->port, $errno, $errstr);
         } else {
-            $this->socket = fsockopen($this->address, $this->port, $errno, $errstr);
-        }
-
-        if ($this->timeout) {
-            stream_set_timeout($this->socket, $this->timeout);
+            $this->socket = @fsockopen($this->address, $this->port, $errno, $errstr);
         }
 
         if (! $this->socket) {
             throw new SocketException(
-                sprintf("Connect failed. [%s] %s", $errno, $errstr)
+                sprintf("Connection failed. [%s] %s", $errno, $errstr)
             );
+        }
+
+        if ($this->timeout) {
+            stream_set_timeout($this->socket, $this->timeout);
         }
     }
 
@@ -92,7 +93,11 @@ class Socket
      */
     public function read($length = 1024)
     {
-        return fread($this->socket, $length);
+        do {
+            $data = fread($this->socket, $length);
+        } while ($data === false);
+
+        return $data;
     }
 
     /**
@@ -102,14 +107,18 @@ class Socket
      */
     public function readLine()
     {
-        return fgets($this->socket);
+        do {
+            $data = fgets($this->socket);
+        } while ($data === false);
+
+        return $data;
     }
 
     /**
      * Write data to the socket.
      *
      * @param string $content
-     * @return void
+     * @throws SocketException
      */
     public function write($content)
     {

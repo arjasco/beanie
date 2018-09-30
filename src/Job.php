@@ -1,12 +1,10 @@
 <?php
 
-namespace Arjasco\Beanie;
-
-use Arjasco\Beanie\ConnectionAware;
+namespace Arjasco\Sprout;
 
 class Job
 {
-    use ConnectionAware;
+    use DataAware;
 
     /**
      * Job id.
@@ -16,134 +14,15 @@ class Job
     protected $id;
 
     /**
-     * Job priority.
-     *
-     * @var int
-     */
-    protected $priority = 1000;
-
-    /**
-     * Job delay in seconds.
-     *
-     * @var int
-     */
-    protected $delay = 0;
-
-    /**
-     * Job "time to run" in seconds.
-     *
-     * @var int
-     */
-    protected $ttr = 60;
-
-    /**
-     * Job data.
-     *
-     * @var mixed
-     */
-    protected $data;
-
-    /**
      * Create a new job
      *
-     * @param mixed $payload
+     * @param mixed $id
+     * @param mixed $data
      */
-    public function __construct($id = null)
+    public function __construct($id = null, $data = null)
     {
-       $this->id = $id;
-    }
-
-    /**
-     * Set the priority.
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function setPriority($value)
-    {
-        $this->priority = $value;
-
-        return $this;
-    }
-
-    /**
-     * Set the delay.
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function setDelay($seconds)
-    {
-        $this->delay = $seconds;
-
-        return $this;
-    }
-
-    /**
-     * Set the time to run.
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function setTimeToRun($seconds)
-    {
-        $this->ttr = $seconds;
-
-        return $this;
-    }
-
-    /**
-     * Set the job data.
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function setData($data)
-    {
+        $this->id = $id;
         $this->data = $data;
-
-        return $this;
-    }
-
-    /**
-     * Get the priority.
-     *
-     * @return int
-     */
-    public function getPriority()
-    {
-        return $this->priority;
-    }
-
-    /**
-     * Set the delay.
-     *
-     * @return int
-     */
-    public function getDelay()
-    {
-        return $this->delay;
-    }
-
-    /**
-     * Set the time to run.
-     *
-     * @return int
-     */
-    public function getTimeToRun()
-    {
-        return $this->ttr;
-    }
-
-    /**
-     * Get the job data.
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function getData($data)
-    {
-        return $this->data;
     }
 
     /**
@@ -155,10 +34,6 @@ class Job
     {
         return [
             'id' => $this->id,
-            'priority' => $this->priority,
-            'delay' => $this->delay,
-            'ttr' => $this->ttr,
-            'connection' => $this->getConnectionName(),
             'data' => $this->data,
         ];
     }
@@ -166,13 +41,23 @@ class Job
     /**
      * JSON encoded payload.
      *
-     * @return void
+     * @return string
      */
-    public function toJsonPayload()
+    public function toJson()
     {
         return json_encode([
-            'connection' => $this->getConnectionName(),
+            'id' => $this->id,
             'data' => $this->data,
         ]);
+    }
+
+    /**
+     * Get the job id.
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

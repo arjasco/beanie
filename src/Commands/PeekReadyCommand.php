@@ -2,14 +2,14 @@
 
 namespace Arjasco\Sprout\Commands;
 
-class StatsCommand implements Command
+class PeekReadyCommand implements Command
 {
     /**
      * @inheritdoc
      */
     public function getLine()
     {
-        return 'stats';
+        return 'peek-ready';
     }
 
     /**

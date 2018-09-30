@@ -1,8 +1,8 @@
 <?php
 
-namespace Arjasco\Beanie\Commands;
+namespace Arjasco\Sprout\Commands;
 
-class WatchCommand extends Command
+class WatchCommand implements Command
 {
     /**
      * Tube name.

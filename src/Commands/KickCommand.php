@@ -2,23 +2,23 @@
 
 namespace Arjasco\Sprout\Commands;
 
-class TouchCommand implements Command
+class KickCommand implements Command
 {
     /**
-     * Job id.
+     * Number of jobs to kick.
      *
      * @var int
      */
-    protected $id;
+    protected $bound;
 
     /**
-     * Create a new "touch" command.
+     * Create a new "kick" command.
      *
-     * @param int $id
+     * @param int $bound
      */
-    public function __construct($id)
+    public function __construct($bound)
     {
-        $this->id = $id;
+        $this->bound = $bound;
     }
 
     /**
@@ -26,7 +26,7 @@ class TouchCommand implements Command
      */
     public function getLine()
     {
-        return 'touch ' . $this->id;
+        return 'kick ' . $this->bound;
     }
 
     /**

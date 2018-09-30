@@ -2,7 +2,7 @@
 
 namespace Arjasco\Sprout\Commands;
 
-class TouchCommand implements Command
+class PeekCommand implements Command
 {
     /**
      * Job id.
@@ -12,7 +12,7 @@ class TouchCommand implements Command
     protected $id;
 
     /**
-     * Create a new "touch" command.
+     * Create a new "peek" command.
      *
      * @param int $id
      */
@@ -26,7 +26,7 @@ class TouchCommand implements Command
      */
     public function getLine()
     {
-        return 'touch ' . $this->id;
+        return 'peek ' . $this->id;
     }
 
     /**
